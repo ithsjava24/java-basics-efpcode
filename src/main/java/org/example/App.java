@@ -1,12 +1,13 @@
 package org.example;
 
-import java.awt.*;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Scanner;
+
 
 public class App {
     public static void displayMenu() {
-        System.out.printf("""
+        System.out.print("""
                 "Elpriser
                 ========
                 1. Inmatning
@@ -18,30 +19,42 @@ public class App {
                 """);
     }
 
-    public ArrayList<String> dataInput(Scanner data){
-        String values = data.nextLine();
-        ArrayList<String> data = values.split("\n");
+    public static String[] dataInput(Scanner data) {
+        String[] resultData = new String[24];
+        for (int i = 0; i < resultData.length; i++) {
+            String numStr = data.nextLine();
+            resultData[i] = numStr;
+        }
+        return resultData;
+    }
+
+    public static String[] priceStats(String[] data) {
+        System.out.print(Arrays.toString(data));
         return data;
+
     }
 
     public static void main(String[] args) {
+        String[] data = new String[24];
         Scanner scanner = new Scanner(System.in);
         displayMenu();
-        while(true){
-           String input = scanner.nextLine().toLowerCase();
-           if(input.equals("e")){
-               break;
-           }
-           else if(input.equals("1")){
-              ArrayList<String> data = dataInput(scanner);
-               System.out.printf("%s",data);
-           }
-           displayMenu();
+        while (true) {
+            String input = scanner.nextLine().toLowerCase();
+            if (input.equals("e")) {
+                break;
+            } else if (input.equals("1")) {
+                data = dataInput(scanner);
 
+            } else if (input.equals("2")) {
+                String[] statsData = priceStats(data);
+            } else {
+                displayMenu();
+            }
 
-        }
 
         }
 
     }
+
+}
 
