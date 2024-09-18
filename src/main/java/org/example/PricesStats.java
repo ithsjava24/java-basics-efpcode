@@ -42,17 +42,16 @@ public class PricesStats {
         priceminiAndMax[1] = priceSortedAscending[priceSortedAscending.length-1];
         return priceminiAndMax;
     }
-    public static App.Price[] pricesInterval(App.Price[] prices, int start, int step) {
-        App.Price [] interval = new App.Price[step];
+    public static App.Price[] pricesInterval(App.Price[] prices, int step) {
+        App.Price [] interval = new App.Price[4];
         double meanIntervalPrice = Double.MAX_VALUE;
 
-        for (int i = start; i <prices.length; i++) {
+        for (int i = 0; i <prices.length; i++, ++step) {
             if (step > prices.length-1){
                 break;
             }
-            App.Price [] temp = Arrays.copyOfRange(prices, start, step);
+            App.Price [] temp = Arrays.copyOfRange(prices, i, step);
             double intervalMean = priceAvg(temp);
-            step = i + step;
             if (intervalMean < meanIntervalPrice) {
                 meanIntervalPrice = intervalMean;
                 interval = temp.clone();

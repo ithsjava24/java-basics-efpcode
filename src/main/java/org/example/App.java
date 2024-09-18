@@ -17,13 +17,10 @@ public class App {
                 """);
     }
 
-    public static Price[] dataInput(Scanner data) {
+    public static Price[] priceInput(Scanner data) {
         Price[] priceData = new Price[24];
-        //int num = data.nextInt();
-
         for (int i = 0; i < priceData.length; i++) {
             int num = data.nextInt();
-            //int value = Integer.parseInt(num);
             priceData[i] = new Price(i, num);
             data.nextLine();
         }
@@ -40,6 +37,14 @@ public class App {
             int endTime = (1 + startTime) == 24 ? 24 : (1 + startTime) % 24 ;
             return String.format("%02d-%02d", startTime, endTime);
         }
+        public String intervalRepresentation(String timeAt){
+            String interval = this.intervalRepresentation();
+            String[] timeSpan = interval.split("-");
+            String timeAtPoint = timeAt.equalsIgnoreCase("start") ? timeSpan[0] : timeSpan[1];
+            return String.format("%02d", Integer.valueOf(timeAtPoint));
+
+
+        }
     }
 
 
@@ -49,14 +54,13 @@ public class App {
         Scanner scanner = new Scanner(System.in);
         Locale sweNumberFormat = new Locale("sv", "SE");
         Locale.setDefault(sweNumberFormat);
-        //scanner.useDelimiter("\\n");
         displayMenu();
         while (true) {
             String input = scanner.nextLine().toLowerCase();
             if (input.equals("e")) {
                 break;
             } else if (input.equals("1")) {
-                data = dataInput(scanner);
+                data = priceInput(scanner);
 
             } else if (input.equals("2")) {
                 double mean = PricesStats.priceAvg(data);
@@ -65,6 +69,19 @@ public class App {
                 System.out.printf("Högsta pris: %s, %d öre/kWh\n", minAndMaxPrices[1].intervalRepresentation(), minAndMaxPrices[1].value());
                 System.out.printf("Medelpris: %.2f öre/kWh\n", mean);
                 System.out.print("\n");
+
+            } else if (input.equals("3")) {
+                Price[] descendingSortedPrices = PricesStats.pricesSortDescending(data);
+                for(Price price: descendingSortedPrices){
+                    System.out.printf("%s %d öre\n", price.intervalRepresentation(), price.value());
+                }
+
+            } else if (input.equals("4")) {
+                Price [] cheapestHourInterval = PricesStats.pricesInterval(data,4);
+                System.out.printf("Påbörja laddning klockan %s\n",cheapestHourInterval[0].intervalRepresentation("start"));
+                System.out.printf("Medelpris 4h: %.1f öre/kWh\n", PricesStats.priceAvg(cheapestHourInterval));
+                System.out.print("\n");
+
 
             } else {
                 displayMenu();
