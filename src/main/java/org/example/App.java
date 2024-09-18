@@ -1,8 +1,6 @@
 package org.example;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Scanner;
+import java.util.*;
 
 
 public class App {
@@ -19,24 +17,42 @@ public class App {
                 """);
     }
 
-    public static String[] dataInput(Scanner data) {
-        String[] resultData = new String[24];
-        for (int i = 0; i < resultData.length; i++) {
-            String numStr = data.nextLine();
-            resultData[i] = numStr;
+    public static Price[] dataInput(Scanner data) {
+        Price[] priceData = new Price[24];
+        String strNumbers = data.nextLine();
+
+        for (int i = 0; i < priceData.length; i++) {
+            int value = Integer.parseInt(strNumbers);
+            priceData[i] = new Price(i, value);
         }
-        return resultData;
+        return priceData;
     }
 
-    public static String[] priceStats(String[] data) {
-        System.out.print(Arrays.toString(data));
-        return data;
+
+    public record Price(int index, int value){
+        public String intervalRepresentation(){
+            if (this.index() > 24){
+                throw new IllegalArgumentException("Index provided exceeds 24 hours");
+            }
+            int startTime = this.index();
+            int endTime = (1 + startTime) == 24 ? 24 : (1 + startTime) % 24 ;
+            return String.format("%02d - %02d", startTime, endTime);
+        }
+    }
+
+    public static double[] priceStats(Price[] prices){
+        double[] statsOnPricing = new double[3];
+        for (Price price : prices){
+            System.out.printf("Interval %s ",price.intervalRepresentation());
+        }
+        return statsOnPricing;
 
     }
 
     public static void main(String[] args) {
-        String[] data = new String[24];
+        Price[] data = new Price[24];
         Scanner scanner = new Scanner(System.in);
+        scanner.useDelimiter("\n");
         displayMenu();
         while (true) {
             String input = scanner.nextLine().toLowerCase();
@@ -46,7 +62,8 @@ public class App {
                 data = dataInput(scanner);
 
             } else if (input.equals("2")) {
-                String[] statsData = priceStats(data);
+                double [] statsData = priceStats(data);
+                System.out.printf("%.2f", statsData[0]);
             } else {
                 displayMenu();
             }
