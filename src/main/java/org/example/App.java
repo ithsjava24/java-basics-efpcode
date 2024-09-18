@@ -19,11 +19,13 @@ public class App {
 
     public static Price[] dataInput(Scanner data) {
         Price[] priceData = new Price[24];
-        String strNumbers = data.nextLine();
+        //int num = data.nextInt();
 
         for (int i = 0; i < priceData.length; i++) {
-            int value = Integer.parseInt(strNumbers);
-            priceData[i] = new Price(i, value);
+            int num = data.nextInt();
+            //int value = Integer.parseInt(num);
+            priceData[i] = new Price(i, num);
+            data.nextLine();
         }
         return priceData;
     }
@@ -36,7 +38,7 @@ public class App {
             }
             int startTime = this.index();
             int endTime = (1 + startTime) == 24 ? 24 : (1 + startTime) % 24 ;
-            return String.format("%02d - %02d", startTime, endTime);
+            return String.format("%02d-%02d", startTime, endTime);
         }
     }
 
@@ -45,7 +47,9 @@ public class App {
     public static void main(String[] args) {
         Price[] data = new Price[24];
         Scanner scanner = new Scanner(System.in);
-        scanner.useDelimiter("\n");
+        Locale sweNumberFormat = new Locale("sv", "SE");
+        Locale.setDefault(sweNumberFormat);
+        //scanner.useDelimiter("\\n");
         displayMenu();
         while (true) {
             String input = scanner.nextLine().toLowerCase();
@@ -55,8 +59,13 @@ public class App {
                 data = dataInput(scanner);
 
             } else if (input.equals("2")) {
-                double [] statsData = priceStats(data);
-                System.out.printf("%.2f", statsData[0]);
+                double mean = PricesStats.priceAvg(data);
+                Price [] minAndMaxPrices = PricesStats.pricesMinAndMax(data);
+                System.out.printf("Lägsta pris: %s, %d öre/kWh\n", minAndMaxPrices[0].intervalRepresentation(), minAndMaxPrices[0].value());
+                System.out.printf("Högsta pris: %s, %d öre/kWh\n", minAndMaxPrices[1].intervalRepresentation(), minAndMaxPrices[1].value());
+                System.out.printf("Medelpris: %.2f öre/kWh\n", mean);
+                System.out.print("\n");
+
             } else {
                 displayMenu();
             }
