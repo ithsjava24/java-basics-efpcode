@@ -1,5 +1,8 @@
 package org.example;
 
+import java.util.Arrays;
+import java.util.Comparator;
+
 public class PricesStats {
     public static double priceSum(App.Price[] prices){
         double priceSum = 0;
@@ -17,5 +20,16 @@ public class PricesStats {
 }
 
 public static App.Price[] pricesSortAscending(App.Price[] prices){
-    // placeholder for future implementation
+    Arrays.sort(prices, Comparator.comparingInt(App.Price::value));
+    return prices;
+}
+
+public static App.Price[] pricesSortDescending(App.Price[] prices){
+    Arrays.sort(prices, Comparator.comparingInt(App.Price::value).reversed());
+    return prices;
+}
+
+public static App.Price[] pricesSortOriginale(App.Price[] prices){
+    Arrays.sort(prices, Comparator.comparingInt(App.Price::index));
+    return prices;
 }
