@@ -40,14 +40,7 @@ public class App {
         }
     }
 
-    public static double[] priceStats(Price[] prices){
-        double[] statsOnPricing = new double[3];
-        for (Price price : prices){
-            System.out.printf("Interval %s ",price.intervalRepresentation());
-        }
-        return statsOnPricing;
 
-    }
 
     public static void main(String[] args) {
         Price[] data = new Price[24];
