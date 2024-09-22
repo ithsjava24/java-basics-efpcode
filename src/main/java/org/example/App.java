@@ -52,8 +52,9 @@ public class App {
     public static void main(String[] args) {
         Price[] data = new Price[24];
         Scanner scanner = new Scanner(System.in);
-        Locale sweNumberFormat = new Locale("sv", "SE");
-        Locale.setDefault(sweNumberFormat);
+        //Locale sweNumberFormat = new Locale("sv", "SE");
+        //Locale.setDefault(sweNumberFormat);
+        Locale.setDefault(Locale.of("sv", "SE"));
         displayMenu();
         while (true) {
             String input = scanner.nextLine().toLowerCase();
@@ -83,7 +84,14 @@ public class App {
                 System.out.print("\n");
 
 
-            } else {
+            } else if (input.equals("5")) {
+                Price[] dataStats = PricesStats.pricesMinAndMax(data);
+               PriceVisualizer.PriceDataPoint[] plotData = PriceVisualizer.normalizeData(data, 6);
+               PriceVisualizer.PriceDataPoint[] sortedPlotData = PriceVisualizer.PriceDataPoint.rowSortDescending(plotData);
+               String [][] matrix = PriceVisualizer.rowBuilder(sortedPlotData, 6, "  x", "  ");
+               PriceVisualizer.PriceConsolePlotter(matrix, dataStats,76,3, "|");
+
+              } else {
                 displayMenu();
             }
 
