@@ -27,7 +27,10 @@ public class PriceVisualizer {
     }
 
     public static int scalarYAxis(int min, int max, int upperBound, int value){
-        return (int) ((((((value - min)* 1.0)/((max - min)))) * (upperBound-1.0)));
+//                (b-a)(x - min)
+//        f(x) = --------------  + a
+//                  max - min
+        return (int) (((((value - min)* 1.0f)/((max - min))) * (upperBound-1)));
     }
 
 

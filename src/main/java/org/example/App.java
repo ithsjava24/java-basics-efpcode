@@ -12,6 +12,7 @@ public class App {
                 2. Min, Max och Medel
                 3. Sortera
                 4. Bästa Laddningstid (4h)
+                5. Visualisering
                 e. Avsluta
                 "
                 """);
@@ -57,8 +58,8 @@ public class App {
         Locale.setDefault(Locale.of("sv", "SE"));
         displayMenu();
         while (true) {
-            String input = scanner.nextLine().toLowerCase();
-            if (input.equals("e")) {
+            String input = scanner.nextLine();
+            if (input.equalsIgnoreCase("e")) {
                 break;
             } else if (input.equals("1")) {
                 data = priceInput(scanner);

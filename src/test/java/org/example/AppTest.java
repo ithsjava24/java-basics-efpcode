@@ -65,6 +65,7 @@ class AppTest {
                 2. Min, Max och Medel
                 3. Sortera
                 4. Bästa Laddningstid (4h)
+                5. Visualisering
                 e. Avsluta
                 """;
         String menuvg = """
